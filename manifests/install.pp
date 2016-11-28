@@ -12,7 +12,7 @@ class xcode_tools::install {
       timeout   => 0,
     } ->
 
-    exec {'/bin/rm -f private/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress': }
+    exec {'/bin/rm -f /private/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress': }
 
   }
 
