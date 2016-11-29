@@ -16,27 +16,30 @@ Facter.add(:xcode_license_accepted) do
 
       result = false unless File.exist? license_plist
 
-      license_plist_data = Puppet::Util::Plist.read_plist_file(license_plist)
+      if File::exists?(license_plist)
+        license_plist_data = Puppet::Util::Plist.read_plist_file(license_plist)
 
-      xcode_license_info_plist = xcode_active_directory.chomp('Developer') + 'Resources/LicenseInfo.plist'
-      xcode_license_info_plist_data = Puppet::Util::Plist.read_plist_file(xcode_license_info_plist)
+        xcode_license_info_plist = xcode_active_directory.chomp('Developer') + 'Resources/LicenseInfo.plist'
+        xcode_license_info_plist_data = Puppet::Util::Plist.read_plist_file(xcode_license_info_plist)
 
-      xcode_info_plist = xcode_active_directory.chomp('Developer') + 'Info.plist'
-      xcode_info = Puppet::Util::Plist.read_plist_file(xcode_info_plist)
-      xcode_version = xcode_info['CFBundleShortVersionString']
+        xcode_info_plist = xcode_active_directory.chomp('Developer') + 'Info.plist'
+        xcode_info = Puppet::Util::Plist.read_plist_file(xcode_info_plist)
+        xcode_version = xcode_info['CFBundleShortVersionString']
 
-      license_type = xcode_license_info_plist_data['licenseType']
-      license_id = xcode_license_info_plist_data['licenseID']
+        license_type = xcode_license_info_plist_data['licenseType']
+        license_id = xcode_license_info_plist_data['licenseID']
 
-      if license_plist_data['IDEXcodeVersionForAgreedTo' + license_type + 'License'] != xcode_version
+        if license_plist_data['IDEXcodeVersionForAgreedTo' + license_type + 'License'] != xcode_version
         result = false
-      elsif license_plist_data['IDELast' + license_type + 'LicenseAgreedTo'] != license_id
-        result = false
-      else
-        result = true
-      end
-
-      result
+        elsif license_plist_data['IDELast' + license_type + 'LicenseAgreedTo'] != license_id
+          result = false
+        else
+          result = true
+        end
+  
+      else  
+        
+       result
 
     end
   end
