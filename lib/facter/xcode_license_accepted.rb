@@ -41,6 +41,7 @@ Facter.add(:xcode_license_accepted) do
         
        result
 
+      end
     end
   end
 end
