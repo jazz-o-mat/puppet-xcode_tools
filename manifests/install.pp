@@ -16,7 +16,7 @@ class xcode_tools::install {
 
   }
 
-  if $facts['xcode_license_accepted'] == false and  $facts['xcode_command_line_tools'] == false {
+  if $facts['xcode_license_accepted'] == false and  $facts['xcode_command_line_tools'] == true {
     exec { '/usr/bin/xcodebuild -license accept': }
   }
 
